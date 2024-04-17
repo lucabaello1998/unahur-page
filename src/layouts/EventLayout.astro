@@ -1,0 +1,46 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import TitleDivider from "../components/SectionTitle/TitleDivider.astro";
+
+interface Props {
+  title: string;
+  epigraph: string;
+  img: ImageMetadata;
+  reverse?: boolean;
+  buttonLabel: string;
+  linkButton: string;
+}
+
+const { img, epigraph, title, buttonLabel, linkButton, reverse } = Astro.props;
+---
+
+<article
+  class:list={"w-full grid grid-cols-1 gap-10 items-center justify-items-center lg:grid-cols-2"}
+  id={"#events"}
+>
+  <div
+    class:list={[
+      "w-full flex flex-col items-center lg:w-5/6 lg:items-start",
+      { "order-last": reverse },
+    ]}
+  >
+    <p class="primary-color text-xl font-bold uppercase mb-4">{epigraph}</p>
+    <p class="text-gray-800 text-4xl lg:text-5xl font-bold">{title}</p>
+    <div class="m-auto lg:m-0">
+      <TitleDivider />
+    </div>
+    <div class="mt-4 mb-8 w-3/4 text-center lg:text-start">
+      <slot name="body" />
+    </div>
+    <slot name="extra-body" />
+    <a
+      class="primary-color border py-2 px-5 rounded-3xl border-[var(--primaryColor);]"
+      href={linkButton}
+      target="_blank">{buttonLabel}</a
+    >
+  </div>
+  <div class="hidden lg:block">
+    <Image src={img} alt="Image of event" />
+  </div>
+</article>
